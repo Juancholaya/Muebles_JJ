@@ -26,6 +26,25 @@ namespace Muebles_JJ.Web.Controllers
             return View(listado);
         }
 
+        // GET: ColorProducto/Details/
+        public async Task<IActionResult> Details(int? IdColor)
+        {
+            if (IdColor == null)
+            {
+                return NotFound();
+            }
+
+            ColorProducto model = await _context.ColorProducto
+                .FirstOrDefaultAsync(m => m.IdColor == IdColor);
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            return View(model);
+        }
+
+
         //GET: ColorProducto/Create
         public IActionResult Create()
         {
@@ -92,6 +111,35 @@ namespace Muebles_JJ.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(colorProducto);
+        }
+
+        // GET: ColorProducto/Delete/5
+        public async Task<IActionResult> Delete(int? IdColor)
+        {
+            if (IdColor == null)
+            {
+                return NotFound();
+            }
+
+            ColorProducto model = await _context.ColorProducto
+                .FirstOrDefaultAsync(m => m.IdColor == IdColor);
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            return View(model);
+        }
+
+        // POST: ColorProducto/Delete
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int IdColor)
+        {
+            ColorProducto model = await _context.ColorProducto.FindAsync(IdColor);
+            _context.ColorProducto.Remove(model);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
 

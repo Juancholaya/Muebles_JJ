@@ -21,7 +21,9 @@
                 <td>@Html.Raw(fila.IdColor)</td>
                 <td>@Html.Raw(fila.Nombre)</td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@fila.IdColor">Edit</a>
+                    <a asp-action="Edit" asp-route-IdColor="@fila.IdColor">Editar</a> |
+                    <a asp-action="Details" asp-route-IdColor="@fila.IdColor">Detalle</a> |
+                    <a asp-action="Delete" asp-route-IdColor="@fila.IdColor">Eliminar</a>
                 </td>
             </tr>
         }

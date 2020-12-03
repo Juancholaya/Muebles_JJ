@@ -1,0 +1,30 @@
+﻿@model Muebles_JJ.Infrastructure.ColorProducto
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Detalles</h1>
+
+<div>
+    <h4>Color Poducto</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IdColor)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IdColor)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-IdColor="@Model.IdColor">Edit</a> |
+    <a asp-action="Index">Regresar a la Lista</a>
+</div>
