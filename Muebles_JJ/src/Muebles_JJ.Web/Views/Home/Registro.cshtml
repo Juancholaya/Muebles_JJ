@@ -1,0 +1,69 @@
+﻿@model Muebles_JJ.Web.Models.RegistroModel
+@{
+    ViewData["Title"] = "Registro";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Registro</h1>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="oPersona.PrimerNombre" class="control-label">Primer Nombre</label>
+                <input asp-for="oPersona.PrimerNombre" class="form-control" />
+                <span asp-validation-for="oPersona.PrimerNombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="oPersona.SegundoNombre" class="control-label">Segundo Nombre</label>
+                <input asp-for="oPersona.SegundoNombre" class="form-control" />
+                <span asp-validation-for="oPersona.SegundoNombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="oPersona.PrimerApellido" class="control-label">Primer Apellido</label>
+                <input asp-for="oPersona.PrimerApellido" class="form-control" />
+                <span asp-validation-for="oPersona.PrimerApellido" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="oPersona.SegundoApellido" class="control-label">Segundo Apellido</label>
+                <input asp-for="oPersona.SegundoApellido" class="form-control" />
+                <span asp-validation-for="oPersona.SegundoApellido" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="oPersona.Direccion" class="control-label">Direccion</label>
+                <input asp-for="oPersona.Direccion" class="form-control" />
+                <span asp-validation-for="oPersona.Direccion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="oPersona.IdDocumentoFk" class="control-label">Tipo de Documento</label>
+                <select asp-for="oPersona.IdDocumentoFk" class="form-control" asp-items="ViewBag.TipoDocumento"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="oPersona.NumeroDocumento" class="control-label">Numero de Documento</label>
+                <input asp-for="oPersona.NumeroDocumento" class="form-control" />
+                <span asp-validation-for="oPersona.NumeroDocumento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="oUsuario.IdRolFk" class="control-label">Seleccione Rol</label>
+                <select asp-for="oUsuario.IdRolFk" class="form-control" asp-items="ViewBag.TipoRol"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="oUsuario.NombreUsuario" class="control-label">Nombre de Usuario</label>
+                <input asp-for="oUsuario.NombreUsuario" class="form-control" />
+                <span asp-validation-for="oUsuario.NombreUsuario" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="oUsuario.ContraseñaUsuario" class="control-label">Contraseña de Usuario</label>
+                <input asp-for="oUsuario.ContraseñaUsuario" class="form-control" />
+                <span asp-validation-for="oUsuario.ContraseñaUsuario" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

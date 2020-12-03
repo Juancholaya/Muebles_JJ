@@ -6,37 +6,44 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Muebles_JJ.Web.Models;
+using Muebles_JJ.Infrastructure;
+using Muebles_JJ.Infrastructure.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Muebles_JJ.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly Muebles_JJDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(Muebles_JJDbContext context)
         {
-            _logger = logger;
+            _context = context;
         }
-
         public IActionResult Index()
         {
             return View();
         }
-
-        public IActionResult Privacy()
+        public IActionResult Registro()
         {
+            ViewData["TipoDocumento"] = new SelectList(_context.Documento, "IdDocumento", "Tipo");
+            ViewData["TipoRol"] = new SelectList(_context.Rol, "IdRol", "Nombre");
             return View();
         }
-
-        public IActionResult AboutMe()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(RegistroModel registroModel)
         {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            if (ModelState.IsValid)
+            {
+               _context.Add(registroModel.oPersona);
+                await _context.SaveChangesAsync();
+                registroModel.oUsuario.IdPersonaFk = registroModel.oPersona.IdPersona;
+                _context.Add(registroModel.oUsuario);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(registroModel);
         }
     }
 }
