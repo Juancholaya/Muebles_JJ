@@ -35,7 +35,11 @@ namespace Muebles_JJ.Infrastructure.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-           
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseMySQL("database=muebles_jj;server=localhost;port=3306;user id=root;");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -115,10 +119,6 @@ namespace Muebles_JJ.Infrastructure.Data
                 entity.Property(e => e.IdDocumento)
                     .HasColumnName("ID_Documento")
                     .HasColumnType("int(1)");
-
-                entity.Property(e => e.Numero)
-                    .HasColumnType("bigint(20)")
-                    .HasDefaultValueSql("'NULL'");
 
                 entity.Property(e => e.Tipo)
                     .HasMaxLength(30)
@@ -293,6 +293,11 @@ namespace Muebles_JJ.Infrastructure.Data
                 entity.Property(e => e.IdDocumentoFk)
                     .HasColumnName("ID_Documento_FK")
                     .HasColumnType("int(1)")
+                    .HasDefaultValueSql("'NULL'");
+
+                entity.Property(e => e.NumeroDocumento)
+                    .HasColumnName("Numero_Documento")
+                    .HasColumnType("bigint(20)")
                     .HasDefaultValueSql("'NULL'");
 
                 entity.Property(e => e.PrimerApellido)

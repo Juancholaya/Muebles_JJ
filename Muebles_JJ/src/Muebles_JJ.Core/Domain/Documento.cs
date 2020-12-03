@@ -12,7 +12,6 @@ namespace Muebles_JJ.Infrastructure
 
         public int IdDocumento { get; set; }
         public string Tipo { get; set; }
-        public long? Numero { get; set; }
 
         public virtual ICollection<Persona> Persona { get; set; }
     }

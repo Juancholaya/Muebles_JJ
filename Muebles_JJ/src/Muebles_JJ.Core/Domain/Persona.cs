@@ -16,6 +16,7 @@ namespace Muebles_JJ.Infrastructure
         public string PrimerApellido { get; set; }
         public string SegundoApellido { get; set; }
         public string Direccion { get; set; }
+        public long? NumeroDocumento { get; set; }
         public int? IdDocumentoFk { get; set; }
 
         public virtual Documento IdDocumentoFkNavigation { get; set; }
