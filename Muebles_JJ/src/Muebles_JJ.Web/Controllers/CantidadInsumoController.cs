@@ -9,32 +9,32 @@ using Muebles_JJ.Infrastructure;
 
 namespace Muebles_JJ.Web.Controllers
 {
-    public class ColorProductoController : Controller
+    public class CantidadInsumoController : Controller
     {
         private readonly Muebles_JJDbContext _context;
 
-        public ColorProductoController(Muebles_JJDbContext context)
+        public CantidadInsumoController(Muebles_JJDbContext context)
         {
             _context = context;
         }
 
-        //GET: ColorProducto
+        //GET: CantidadInsumo
         public async Task<IActionResult> Index()
         {
-            var listado = await _context.ColorProducto.ToListAsync();
+            var listado = await _context.CantidadInsumo.ToListAsync();
             return View(listado);
         }
 
-        // GET: ColorProducto/Details/
-        public async Task<IActionResult> Details(int? IdColor)
+        // GET: CantidadInsumo/Details/
+        public async Task<IActionResult> Details(int? IdCantidad)
         {
-            if (IdColor == null)
+            if (IdCantidad == null)
             {
                 return NotFound();
             }
 
-            ColorProducto model = await _context.ColorProducto
-                .FirstOrDefaultAsync(m => m.IdColor == IdColor);
+            CantidadInsumo model = await _context.CantidadInsumo
+                .FirstOrDefaultAsync(m => m.IdCantidad == IdCantidad);
             if (model == null)
             {
                 return NotFound();
@@ -44,35 +44,36 @@ namespace Muebles_JJ.Web.Controllers
         }
 
 
-        //GET: ColorProducto/Create
+        //GET: CantidadInsumo/Create
         public IActionResult Create()
         {
             return View();
         }
 
+        //POST: CantidadInsumo/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Nombre")] ColorProducto colorProducto)
+        public async Task<IActionResult> Create([Bind("Tipo, Cantidad")] CantidadInsumo cantidadInsumo)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(colorProducto);
+                _context.Add(cantidadInsumo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(colorProducto);
+            return View(cantidadInsumo);
         }
 
         [HttpGet]
-        // GET: ColorProducto/Edit
-        public async Task<IActionResult> Edit(int? IdColor)
+        // GET: CantidadInsumo/Edit
+        public async Task<IActionResult> Edit(int? IdCantidad)
         {
-            if (IdColor == null)
+            if (IdCantidad == null)
             {
                 return NotFound();
             }
 
-            ColorProducto model = await _context.ColorProducto.FindAsync(IdColor);
+            CantidadInsumo model = await _context.CantidadInsumo.FindAsync(IdCantidad);
             if (model == null)
             {
                 return NotFound();
@@ -80,11 +81,12 @@ namespace Muebles_JJ.Web.Controllers
             return View(model);
         }
 
+        // POST: CantidadInsumo/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int IdColor, [Bind("IdColor,Nombre")] ColorProducto colorProducto)
+        public async Task<IActionResult> Edit(int IdCantidad, [Bind("Tipo, Cantidad")] CantidadInsumo cantidadInsumo)
         {
-            if (IdColor != colorProducto.IdColor)
+            if (IdCantidad != cantidadInsumo.IdCantidad)
             {
                 return NotFound();
             }
@@ -93,12 +95,12 @@ namespace Muebles_JJ.Web.Controllers
             {
                 try
                 {
-                    _context.Update(colorProducto);
+                    _context.Update(cantidadInsumo);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ColorProductoExists(colorProducto.IdColor))
+                    if (!CantidadInsumoExists(cantidadInsumo.IdCantidad))
                     {
                         return NotFound();
                     }
@@ -109,19 +111,19 @@ namespace Muebles_JJ.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(colorProducto);
+            return View(cantidadInsumo);
         }
 
-        // GET: ColorProducto/Delete/5
-        public async Task<IActionResult> Delete(int? IdColor)
+        // GET: CantidadInsumo/Delete/5
+        public async Task<IActionResult> Delete(int? IdCantidad)
         {
-            if (IdColor == null)
+            if (IdCantidad == null)
             {
                 return NotFound();
             }
 
-            ColorProducto model = await _context.ColorProducto
-                .FirstOrDefaultAsync(m => m.IdColor == IdColor);
+            CantidadInsumo model = await _context.CantidadInsumo
+                .FirstOrDefaultAsync(m => m.IdCantidad == IdCantidad);
             if (model == null)
             {
                 return NotFound();
@@ -130,21 +132,21 @@ namespace Muebles_JJ.Web.Controllers
             return View(model);
         }
 
-        // POST: ColorProducto/Delete
+        // POST: CantidadInsumo/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int IdColor)
+        public async Task<IActionResult> DeleteConfirmed(int IdCantidad)
         {
-            ColorProducto model = await _context.ColorProducto.FindAsync(IdColor);
-            _context.ColorProducto.Remove(model);
+            CantidadInsumo model = await _context.CantidadInsumo.FindAsync(IdCantidad);
+            _context.CantidadInsumo.Remove(model);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
 
-        private bool ColorProductoExists(int IdColor)
+        private bool CantidadInsumoExists(int IdCantidad)
         {
-            return _context.ColorProducto.Any(c => c.IdColor == IdColor);
+            return _context.CantidadInsumo.Any(c => c.IdCantidad == IdCantidad);
         }
     }
 }
