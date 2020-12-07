@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Muebles_JJ.Infrastructure
 {
-    public partial class ComprobantePago
+    public partial class Documento
     {
         public int IdComprobante { get; set; }
         public DateTime? Fecha { get; set; }
