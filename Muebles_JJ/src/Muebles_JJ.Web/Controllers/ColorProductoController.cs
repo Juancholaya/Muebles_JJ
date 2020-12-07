@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Muebles_JJ.Infrastructure.Data;
 using Muebles_JJ.Infrastructure;
 
+
 namespace Muebles_JJ.Web.Controllers
 {
     public class ColorProductoController : Controller
