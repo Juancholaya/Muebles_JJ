@@ -45,6 +45,11 @@ namespace Muebles_JJ.Web.Controllers
             }
             return View(registroModel);
         }
+        public IActionResult Login()
+        {
+            return View();
+        }
+
         public IActionResult Prueba()
         {
             return View();

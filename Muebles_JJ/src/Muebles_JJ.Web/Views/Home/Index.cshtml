@@ -2,6 +2,83 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div>
-    <a asp-action="Registro">Registro</a>
+<div class="row">
+    <div class="col-12">
+
+        <!--carousel inicio-->
+        <div id="demo" class="carousel slide" data-ride="carousel">
+
+            <!-- Indicators -->
+            <ul class="carousel-indicators">
+                <li data-target="#demo" data-slide-to="0" class="active"></li>
+                <li data-target="#demo" data-slide-to="1"></li>
+                <li data-target="#demo" data-slide-to="2"></li>
+            </ul>
+
+            <!-- The slideshow -->
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="~/Imagenes/BaseCama.jpg" alt="Base Cama" width="1100" height="450">
+                </div>
+                <div class="button-container carousel-item">
+                    <img src="~/Imagenes/Cabeceros.jpg" alt="Cabecero" width="1100" height="450">
+                </div>
+                <div class="button-container carousel-item">
+                    <img src="~/Imagenes/Sala.jpg" alt="Sala" width="1100" height="450">
+                </div>
+            </div>
+
+            <!-- Left and right controls -->
+            <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a class="carousel-control-next" href="#demo" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </a>
+        </div>
+        <!--carousel fin-->
+    </div>
+</div>
+<br />
+<div class="row" style="background-color:white;">
+    <div class="col-4"></div>
+    <div class="col-4" style="text-align: center">
+        <h2>Quienes Somos</h2>
+    </div>
+    <div class="col-4"></div>
+    <br />
+</div>
+<div class="row" style="background-color:white;">
+    <div class="col-2"></div>
+    <div class="col-8" style="text-align: center">
+        <p>Hace varios años tuvimos un sueño y quisimos aventurarnos, arriesgarnos y apostarle a este hermoso negocio. Y nos encantó desde el primer momento, nos gustaban las personas con las que trabajábamos, nos gustaba crear espacios, combinar colores y texturas, nos enamoraba atender a los clientes y sobre todo nos gustaba tener sueños.</p>
+    </div>
+    <div class="col-2"></div>
+</div>
+<br />
+<div class="row" style="background-color:white;">
+    <div class="col-2"></div>
+    <div class="col-3">
+        <img src="~/Imagenes/Vision.png" />
+    </div>
+    <div class="col-5" style="text-align:center; display: flex; align-items: center;">
+        <p>Muebles J.J es una empresa que se proyecta y tiene metas para un futuro. Se piensa que para años posteriores, la empresa posea una gran competitividad en el mundo productivo, obteniendo una gran calidad de servicio al cliente y la calidad que necesita mostrar. Si todo resulta bien para la empresa, se planea extender el servicio mediante nuevas sucursales ubicadas a nivel nacional.</p>
+    </div>
+    <div class="col-2"></div>
+</div>
+<br />
+<div class="row" style="background-color:white;">
+    <div class="col-2"></div>
+    <div class="col-5" style="text-align:center; display: flex; align-items: center;">
+        <p>La empresa buscara mediante la venta de sus productos una atracción de clientes nuevos que permita el crecimiento de la empresa, basándose en productos llamativos, de calidad y de precio justo. También buscara fidelizar sus clientes antiguos basándose en el excelente servicio.</p>
+    </div>
+    <div class="col-3">
+        <img src="~/Imagenes/Mision.jpg" />
+    </div>
+    <div class="col-2"></div>
+</div>
+<div class="row">
+    <div class="col-12" style="align-items:center">
+
+    </div>
 </div>

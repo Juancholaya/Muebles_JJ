@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row" style="background-color:white;">
+    <div class="col-6">
+        <img src="~/Imagenes/BaseCama.jpg" width="100%" height="100%"/>
+    </div>
+    <div class="col-6" style="display: flex; align-items: center;">
+        <div class="container">
+            <div class="row" style="text-align:center">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <h1>Login</h1>
+                </div>
+                <div class="col-2"></div>
+            </div>
+            <br />
+            <br />
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <input type="text" class="form-control" placeholder="Usuario">
+                </div>
+                <div class="col-2"></div>
+            </div>
+            <br />
+            <br />
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <input type="text" class="form-control" placeholder="Contraseña">
+                </div>
+                <div class="col-2"></div>
+            </div>
+            <br />
+            <br />
+            <div class="row">
+                <div class="col-3"></div>
+                <div class="col-3">
+                    <form class="form-inline my-2 my-lg-0">
+                        <a asp-action="Index" class="btn btn-outline-danger">Cancelar</a>
+                    </form>
+                </div>
+                <div class="col-4">
+                    <form class="form-inline my-2 my-lg-0">
+                        <a asp-action="Login" class="btn btn-outline-success">Login</a>
+                    </form>
+                </div>
+                <div class="col-2"></div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-12" style="text-align:center;">
+                    <a asp-action="Login">Recuperar Contraseña</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
