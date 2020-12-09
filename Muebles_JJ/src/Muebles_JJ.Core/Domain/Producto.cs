@@ -7,8 +7,7 @@ namespace Muebles_JJ.Infrastructure
     {
         public Producto()
         {
-            Inventario = new HashSet<Inventario>();
-            Venta = new HashSet<Venta>();
+            DetalleVenta = new HashSet<DetalleVenta>();
         }
 
         public int IdProducto { get; set; }
@@ -21,7 +20,6 @@ namespace Muebles_JJ.Infrastructure
         public virtual MaterialProducto IdMaterialFkNavigation { get; set; }
         public virtual MedidaProducto IdMedidaFkNavigation { get; set; }
         public virtual TipoProducto IdTipoFkNavigation { get; set; }
-        public virtual ICollection<Inventario> Inventario { get; set; }
-        public virtual ICollection<Venta> Venta { get; set; }
+        public virtual ICollection<DetalleVenta> DetalleVenta { get; set; }
     }
 }

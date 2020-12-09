@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace Muebles_JJ.Infrastructure
 {
-    public partial class CantidadInsumo
+    public partial class Unidadmedida
     {
-        public CantidadInsumo()
+        public Unidadmedida()
         {
             Insumo = new HashSet<Insumo>();
         }
 
-        public int IdCantidad { get; set; }
-        public string Tipo { get; set; }
-        public int? Cantidad { get; set; }
+        public int IdMedida { get; set; }
+        public string NombreLargo { get; set; }
+        public string NombreCorto { get; set; }
 
         public virtual ICollection<Insumo> Insumo { get; set; }
     }

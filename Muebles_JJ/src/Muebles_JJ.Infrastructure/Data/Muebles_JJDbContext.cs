@@ -16,12 +16,11 @@ namespace Muebles_JJ.Infrastructure.Data
         {
         }
 
-        public virtual DbSet<CantidadInsumo> CantidadInsumo { get; set; }
         public virtual DbSet<ColorProducto> ColorProducto { get; set; }
         public virtual DbSet<ComprobantePago> ComprobantePago { get; set; }
+        public virtual DbSet<DetalleVenta> DetalleVenta { get; set; }
         public virtual DbSet<Documento> Documento { get; set; }
         public virtual DbSet<Insumo> Insumo { get; set; }
-        public virtual DbSet<Inventario> Inventario { get; set; }
         public virtual DbSet<MaterialProducto> MaterialProducto { get; set; }
         public virtual DbSet<MedidaProducto> MedidaProducto { get; set; }
         public virtual DbSet<Pedido> Pedido { get; set; }
@@ -30,6 +29,7 @@ namespace Muebles_JJ.Infrastructure.Data
         public virtual DbSet<Rol> Rol { get; set; }
         public virtual DbSet<Telefono> Telefono { get; set; }
         public virtual DbSet<TipoProducto> TipoProducto { get; set; }
+        public virtual DbSet<Unidadmedida> Unidadmedida { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
         public virtual DbSet<Venta> Venta { get; set; }
 
@@ -44,27 +44,6 @@ namespace Muebles_JJ.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<CantidadInsumo>(entity =>
-            {
-                entity.HasKey(e => e.IdCantidad)
-                    .HasName("PRIMARY");
-
-                entity.ToTable("cantidad_insumo");
-
-                entity.Property(e => e.IdCantidad)
-                    .HasColumnName("ID_Cantidad")
-                    .HasColumnType("int(2)");
-
-                entity.Property(e => e.Cantidad)
-                    .HasColumnType("int(10)")
-                    .HasDefaultValueSql("'NULL'");
-
-                entity.Property(e => e.Tipo)
-                    .HasMaxLength(30)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("'NULL'");
-            });
-
             modelBuilder.Entity<ColorProducto>(entity =>
             {
                 entity.HasKey(e => e.IdColor)
@@ -109,6 +88,53 @@ namespace Muebles_JJ.Infrastructure.Data
                     .HasConstraintName("comprobante_pago_ibfk_1");
             });
 
+            modelBuilder.Entity<DetalleVenta>(entity =>
+            {
+                entity.HasKey(e => e.IdDetalle)
+                    .HasName("PRIMARY");
+
+                entity.ToTable("detalle_venta");
+
+                entity.HasIndex(e => e.IdProductoFk)
+                    .HasName("ID_Producto_Fk");
+
+                entity.HasIndex(e => e.IdVentaFk)
+                    .HasName("ID_Venta_Fk");
+
+                entity.Property(e => e.IdDetalle)
+                    .HasColumnName("ID_Detalle")
+                    .HasColumnType("int(2)");
+
+                entity.Property(e => e.Cantidad)
+                    .HasColumnType("int(11)")
+                    .HasDefaultValueSql("'NULL'");
+
+                entity.Property(e => e.IdProductoFk)
+                    .HasColumnName("ID_Producto_Fk")
+                    .HasColumnType("int(11)")
+                    .HasDefaultValueSql("'NULL'");
+
+                entity.Property(e => e.IdVentaFk)
+                    .HasColumnName("ID_Venta_Fk")
+                    .HasColumnType("int(11)")
+                    .HasDefaultValueSql("'NULL'");
+
+                entity.Property(e => e.ValorUnitario)
+                    .HasColumnName("Valor_Unitario")
+                    .HasColumnType("decimal(10,0)")
+                    .HasDefaultValueSql("'NULL'");
+
+                entity.HasOne(d => d.IdProductoFkNavigation)
+                    .WithMany(p => p.DetalleVenta)
+                    .HasForeignKey(d => d.IdProductoFk)
+                    .HasConstraintName("detalle_venta_ibfk_2");
+
+                entity.HasOne(d => d.IdVentaFkNavigation)
+                    .WithMany(p => p.DetalleVenta)
+                    .HasForeignKey(d => d.IdVentaFk)
+                    .HasConstraintName("detalle_venta_ibfk_1");
+            });
+
             modelBuilder.Entity<Documento>(entity =>
             {
                 entity.HasKey(e => e.IdDocumento)
@@ -133,15 +159,19 @@ namespace Muebles_JJ.Infrastructure.Data
 
                 entity.ToTable("insumo");
 
-                entity.HasIndex(e => e.IdCantidadFk)
-                    .HasName("ID_Cantidad_FK");
+                entity.HasIndex(e => e.IdMedidaFk)
+                    .HasName("Id_Medida_FK");
 
                 entity.Property(e => e.IdInsumo)
                     .HasColumnName("ID_Insumo")
                     .HasColumnType("int(2)");
 
-                entity.Property(e => e.IdCantidadFk)
-                    .HasColumnName("ID_Cantidad_FK")
+                entity.Property(e => e.Cantidad)
+                    .HasColumnType("int(11)")
+                    .HasDefaultValueSql("'NULL'");
+
+                entity.Property(e => e.IdMedidaFk)
+                    .HasColumnName("Id_Medida_FK")
                     .HasColumnType("int(2)")
                     .HasDefaultValueSql("'NULL'");
 
@@ -150,56 +180,10 @@ namespace Muebles_JJ.Infrastructure.Data
                     .IsUnicode(false)
                     .HasDefaultValueSql("'NULL'");
 
-                entity.HasOne(d => d.IdCantidadFkNavigation)
+                entity.HasOne(d => d.IdMedidaFkNavigation)
                     .WithMany(p => p.Insumo)
-                    .HasForeignKey(d => d.IdCantidadFk)
+                    .HasForeignKey(d => d.IdMedidaFk)
                     .HasConstraintName("insumo_ibfk_1");
-            });
-
-            modelBuilder.Entity<Inventario>(entity =>
-            {
-                entity.HasKey(e => e.IdInventario)
-                    .HasName("PRIMARY");
-
-                entity.ToTable("inventario");
-
-                entity.HasIndex(e => e.IdInsumoFk)
-                    .HasName("ID_Insumo_FK");
-
-                entity.HasIndex(e => e.IdProductoFk)
-                    .HasName("ID_Producto_FK");
-
-                entity.Property(e => e.IdInventario)
-                    .HasColumnName("ID_Inventario")
-                    .HasColumnType("int(2)");
-
-                entity.Property(e => e.FechaEntrada)
-                    .HasColumnName("Fecha_Entrada")
-                    .HasDefaultValueSql("'NULL'");
-
-                entity.Property(e => e.FechaSalida)
-                    .HasColumnName("Fecha_Salida")
-                    .HasDefaultValueSql("'NULL'");
-
-                entity.Property(e => e.IdInsumoFk)
-                    .HasColumnName("ID_Insumo_FK")
-                    .HasColumnType("int(2)")
-                    .HasDefaultValueSql("'NULL'");
-
-                entity.Property(e => e.IdProductoFk)
-                    .HasColumnName("ID_Producto_FK")
-                    .HasColumnType("int(2)")
-                    .HasDefaultValueSql("'NULL'");
-
-                entity.HasOne(d => d.IdInsumoFkNavigation)
-                    .WithMany(p => p.Inventario)
-                    .HasForeignKey(d => d.IdInsumoFk)
-                    .HasConstraintName("inventario_ibfk_1");
-
-                entity.HasOne(d => d.IdProductoFkNavigation)
-                    .WithMany(p => p.Inventario)
-                    .HasForeignKey(d => d.IdProductoFk)
-                    .HasConstraintName("inventario_ibfk_2");
             });
 
             modelBuilder.Entity<MaterialProducto>(entity =>
@@ -466,6 +450,28 @@ namespace Muebles_JJ.Infrastructure.Data
                     .HasDefaultValueSql("'NULL'");
             });
 
+            modelBuilder.Entity<Unidadmedida>(entity =>
+            {
+                entity.HasKey(e => e.IdMedida)
+                    .HasName("PRIMARY");
+
+                entity.ToTable("unidadmedida");
+
+                entity.Property(e => e.IdMedida)
+                    .HasColumnName("Id_Medida")
+                    .HasColumnType("int(2)");
+
+                entity.Property(e => e.NombreCorto)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("'NULL'");
+
+                entity.Property(e => e.NombreLargo)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("'NULL'");
+            });
+
             modelBuilder.Entity<Usuario>(entity =>
             {
                 entity.HasKey(e => e.IdUsuario)
@@ -523,37 +529,45 @@ namespace Muebles_JJ.Infrastructure.Data
 
                 entity.ToTable("venta");
 
-                entity.HasIndex(e => e.IdProductoFk)
-                    .HasName("ID_Producto_FK");
+                entity.HasIndex(e => e.IdDocumentoFk)
+                    .HasName("ID_Documento_Fk");
 
                 entity.Property(e => e.IdVenta)
                     .HasColumnName("ID_Venta")
                     .HasColumnType("int(2)");
 
-                entity.Property(e => e.CantidadProducto)
-                    .HasColumnName("Cantidad_Producto")
-                    .HasColumnType("int(10)")
+                entity.Property(e => e.DocumentoCliente)
+                    .HasColumnName("Documento_Cliente")
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
                     .HasDefaultValueSql("'NULL'");
 
-                entity.Property(e => e.Fecha).HasDefaultValueSql("'NULL'");
-
-                entity.Property(e => e.IdProductoFk)
-                    .HasColumnName("ID_Producto_FK")
-                    .HasColumnType("int(2)")
+                entity.Property(e => e.Entrega)
+                    .HasColumnType("int(1)")
                     .HasDefaultValueSql("'NULL'");
 
-                entity.Property(e => e.SubTotal)
-                    .HasColumnName("Sub_Total")
-                    .HasColumnType("int(10)")
+                entity.Property(e => e.FechaEntrega)
+                    .HasColumnName("Fecha_Entrega")
                     .HasDefaultValueSql("'NULL'");
 
-                entity.Property(e => e.Total)
-                    .HasColumnType("int(10)")
+                entity.Property(e => e.FechaVenta)
+                    .HasColumnName("Fecha_Venta")
                     .HasDefaultValueSql("'NULL'");
 
-                entity.HasOne(d => d.IdProductoFkNavigation)
+                entity.Property(e => e.IdDocumentoFk)
+                    .HasColumnName("ID_Documento_Fk")
+                    .HasColumnType("int(11)")
+                    .HasDefaultValueSql("'NULL'");
+
+                entity.Property(e => e.NombreCliente)
+                    .HasColumnName("Nombre_Cliente")
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("'NULL'");
+
+                entity.HasOne(d => d.IdDocumentoFkNavigation)
                     .WithMany(p => p.Venta)
-                    .HasForeignKey(d => d.IdProductoFk)
+                    .HasForeignKey(d => d.IdDocumentoFk)
                     .HasConstraintName("venta_ibfk_1");
             });
 
