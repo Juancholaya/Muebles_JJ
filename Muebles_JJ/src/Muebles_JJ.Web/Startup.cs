@@ -27,6 +27,9 @@ namespace Muebles_JJ.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
+            services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
+            services.AddSession();
             services.AddDbContext<Muebles_JJDbContext>(options =>
                 options.UseMySQL(Configuration.GetConnectionString("Muebles_JJConnection")));
             services.AddControllersWithViews();
@@ -45,6 +48,9 @@ namespace Muebles_JJ.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            // IMPORTANT: This session call MUST go before UseMvc()
+            app.UseSession();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

@@ -1,0 +1,42 @@
+﻿@model List<Muebles_JJ.Infrastructure.Usuario>
+@{
+    ViewData["Title"] = "ConsultaUsuario";
+    Layout = "~/Views/Shared/_LayoutUsuario.cshtml";
+}
+
+<div class="row" style="background-color:white;">
+    <div class="col-12">
+        <h1>ConsultaUsuario</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12" style="background-color:white;display: inline-flex;justify-content: center;">
+        <table id="tableUsuario">
+            <thead>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Rol</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    List<Muebles_JJ.Infrastructure.Rol> listaRoles = (List<Muebles_JJ.Infrastructure.Rol>)ViewBag.TipoRol;
+                    <tr>
+                        <td>@Html.Raw(item.NombreUsuario)</td>
+                        <td>@Html.Raw(listaRoles.Where(x => x.IdRol == item.IdRolFk).FirstOrDefault().Nombre)</td>
+                        <td>
+                            <a asp-action="EditarRegistro" class="btn btn-outline-info" asp-route-IdColor="@item.IdUsuario">Editar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#tableUsuario').DataTable();
+    });
+</script>

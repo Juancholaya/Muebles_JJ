@@ -9,6 +9,8 @@ using Muebles_JJ.Web.Models;
 using Muebles_JJ.Infrastructure;
 using Muebles_JJ.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Web;
+using Microsoft.AspNetCore.Http;
 
 namespace Muebles_JJ.Web.Controllers
 {
@@ -22,13 +24,19 @@ namespace Muebles_JJ.Web.Controllers
         }
         public IActionResult Index()
         {
+            HttpContext.Session.Clear();
             return View();
         }
         public IActionResult Registro()
         {
-            ViewData["TipoDocumento"] = new SelectList(_context.Documento, "IdDocumento", "Tipo");
-            ViewData["TipoRol"] = new SelectList(_context.Rol, "IdRol", "Nombre");
-            return View();
+            if (HttpContext.Session.GetString("Logueo") == "Si")
+            {
+                ViewData["TipoDocumento"] = new SelectList(_context.Documento, "IdDocumento", "Tipo");
+                ViewData["TipoRol"] = new SelectList(_context.Rol, "IdRol", "Nombre");
+                return View();
+            }
+            ViewData["MensajeError"] = "Su sesión expiró.";
+            return View(nameof(Login));
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -47,7 +55,47 @@ namespace Muebles_JJ.Web.Controllers
         }
         public IActionResult Login()
         {
+            ViewData["MensajeError"] = HttpContext.Session.GetString("MensajeError");
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult>Login(Usuario usuarioModel)
+        {
+            if (ModelState.IsValid)
+            {
+                if(_context.Usuario.Any(c => c.NombreUsuario == usuarioModel.NombreUsuario && c.ContraseñaUsuario == usuarioModel.ContraseñaUsuario))
+                {
+                    HttpContext.Session.SetString("Logueo", "Si");
+                    return RedirectToAction(nameof(Inicial));
+                }
+            }
+            HttpContext.Session.SetString("MensajeError", "Usuario o contraseña incorrecta.");
+            return RedirectToAction(nameof(Login), "Home");
+        }
+
+        public IActionResult Inicial()
+        {
+            if(HttpContext.Session.GetString("Logueo") == "Si")
+            {
+                return View();
+            }
+            ViewData["MensajeError"] = "Su sesión expiró.";
+            return View(nameof(Login));
+
+        }
+
+        public IActionResult ConsultaUsuario()
+        {
+            if (HttpContext.Session.GetString("Logueo") == "Si")
+            {
+                ViewData["TipoRol"] = _context.Rol.ToList();
+                List<Usuario> model = _context.Usuario.ToList(); 
+                return View(model);
+            }
+            ViewData["MensajeError"] = "Su sesión expiró.";
+            return View(nameof(Login));
         }
 
         public IActionResult Prueba()

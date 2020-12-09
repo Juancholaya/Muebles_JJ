@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Muebles_JJ</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/css/Muebles_JJ.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/jquery.dataTables.min.js"></script>
+    <script src="~/js/Muebles_JJ.js"></script>
+</head>
+<body>
+    <!--Menu inicio-->
+    <nav id="menu" class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+        <img src="~/Imagenes/logo.jpeg" width="3%" height="3%" />
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Producción
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Crear ficha</a>
+                        <a class="dropdown-item" href="#">Consultar Ficha</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Inventario
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Crear Insumo</a>
+                        <a class="dropdown-item" href="#">Consultar Insumo</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Ventas
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Crear Venta</a>
+                        <a class="dropdown-item" href="#">Consultar Venta</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Gestión Usuario
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/Home/Registro">Crear Usuario</a>
+                        <a class="dropdown-item" href="/Home/ConsultaUsuario">Consultar Usuario</a>
+                    </div>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <a href="/Home/Index" class="btn btn-outline-dark">Cerrar sesión</a>
+            </form>
+        </div>
+    </nav>
+    <br />
+    <br />
+    <br />
+    <!--Menu fin-->
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - Muebles_JJ
+        </div>
+    </footer>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
