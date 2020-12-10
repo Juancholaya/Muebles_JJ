@@ -1,0 +1,77 @@
+﻿@model Muebles_JJ.Web.Models.VentaModel
+@{
+    ViewData["Title"] = "CreateArticulo";
+    Layout = "~/Views/Shared/_LayoutUsuario.cshtml";
+}
+
+
+<div class="container" style="background-color:white;">
+    <h1>Agregar artículo</h1>
+    <form asp-action="AgregarArticulo">
+        <input type="hidden" asp-for="oDetalleVenta.IdVentaFk" />
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label asp-for="oProducto.IdTipoFk" class="control-label">Tipo</label>
+                    <select asp-for="oProducto.IdTipoFk" class="form-control" asp-items="ViewBag.Tipo"></select>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label asp-for="oProducto.IdMaterialFk" class="control-label">Material</label>
+                    <select asp-for="oProducto.IdMaterialFk" class="form-control" asp-items="ViewBag.Material"></select>
+                </div>
+            </div>
+            <div class="col-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label asp-for="oProducto.IdColorFk" class="control-label">Color</label>
+                    <select asp-for="oProducto.IdColorFk" class="form-control" asp-items="ViewBag.Color"></select>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label asp-for="oProducto.IdMedidaFk" class="control-label">Medida(cm)</label>
+                    <select asp-for="oProducto.IdMedidaFk" class="form-control" asp-items="ViewBag.Medida"></select>
+                </div>
+            </div>
+            <div class="col-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label asp-for="oDetalleVenta.Cantidad" class="control-label">Cantidad</label>
+                    <input asp-for="oDetalleVenta.Cantidad" class="form-control" />
+                    <span asp-validation-for="oDetalleVenta.Cantidad" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label asp-for="oDetalleVenta.ValorUnitario" class="control-label">Valor Unitario</label>
+                    <input asp-for="oDetalleVenta.ValorUnitario" class="form-control" />
+                    <span asp-validation-for="oDetalleVenta.ValorUnitario" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-4" style="display: inline-flex; justify-content: center;">
+                <div class="form-group">
+                    <a asp-action="CreateVenta" class="btn btn-outline-danger" asp-route-IdVenta="@Model.oDetalleVenta.IdVentaFk">Cancelar</a>
+                </div>
+            </div>
+            <div class="col-4" style="display: inline-flex; justify-content: center;">
+                <div class="form-group">
+                    <input type="submit" value="Agregar" class="btn btn-outline-success" />
+                </div>
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </form>
+</div>

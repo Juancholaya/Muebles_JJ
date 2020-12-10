@@ -11,7 +11,7 @@
 </div>
 <div class="row">
     <div class="col-12" style="background-color:white;display: inline-flex;justify-content: center;">
-        <table id="tableUsuario">
+        <table id="tableUsuario" class="table table-hover">
             <thead>
                 <tr>
                     <th>Usuario</th>
@@ -27,7 +27,7 @@
                         <td>@Html.Raw(item.NombreUsuario)</td>
                         <td>@Html.Raw(listaRoles.Where(x => x.IdRol == item.IdRolFk).FirstOrDefault().Nombre)</td>
                         <td>
-                            <a asp-action="EditarRegistro" class="btn btn-outline-info" asp-route-IdColor="@item.IdUsuario">Editar</a>
+                            <a asp-action="EditarUsuario" class="btn btn-outline-secondary" asp-route-IdUsuario="@item.IdUsuario">Editar</a>
                         </td>
                     </tr>
                 }

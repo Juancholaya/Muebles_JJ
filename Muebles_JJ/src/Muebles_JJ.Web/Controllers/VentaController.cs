@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Muebles_JJ.Infrastructure.Data;
 using Muebles_JJ.Infrastructure;
-
+using Muebles_JJ.Web.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Http;
 
 namespace Muebles_JJ.Web.Controllers
 {
@@ -22,130 +24,136 @@ namespace Muebles_JJ.Web.Controllers
         //GET: Venta
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("Logueo") != "Si")
+            {
+                HttpContext.Session.SetString("MensajeError", "Su sesión expiró.");
+                return RedirectToAction("Login", "Home");
+            }
             var listado = await _context.Venta.ToListAsync();
             return View(listado);
         }
 
-        // GET: Venta/Details/
-        public async Task<IActionResult> Details(int? IdVenta)
-        {
-            if (IdVenta == null)
-            {
-                return NotFound();
-            }
-
-            Venta model = await _context.Venta
-                .FirstOrDefaultAsync(m => m.IdVenta == IdVenta);
-            if (model == null)
-            {
-                return NotFound();
-            }
-
-            return View(model);
-        }
-
-
-        //GET: Venta/Create
         public IActionResult Create()
         {
-            return View();
+            if (HttpContext.Session.GetString("Logueo") != "Si")
+            {
+                HttpContext.Session.SetString("MensajeError", "Su sesión expiró.");
+                return RedirectToAction("Login", "Home");
+            }
+            ViewData["TipoDocumento"] = new SelectList(_context.Documento, "IdDocumento", "Tipo");
+            VentaModel model = new VentaModel();
+            return View(model);
         }
+
+        public IActionResult CreateVenta(int IdVenta)
+        {
+            if (HttpContext.Session.GetString("Logueo") != "Si")
+            {
+                HttpContext.Session.SetString("MensajeError", "Su sesión expiró.");
+                return RedirectToAction("Login", "Home");
+            }
+            ViewData["MensajeError"] = HttpContext.Session.GetString("MensajeError");
+            ViewData["TipoDocumento"] = new SelectList(_context.Documento, "IdDocumento", "Tipo");             
+            VentaModel model = new VentaModel();
+            model.oVenta = _context.Venta.Find(IdVenta);
+            model.listArticulos = (from a in _context.Venta
+                                   join b in _context.DetalleVenta on a.IdVenta equals b.IdVentaFk
+                                   join c in _context.Producto on b.IdProductoFk equals c.IdProducto
+                                   join d in _context.TipoProducto on c.IdTipoFk equals d.IdTipo
+                                   join e in _context.MaterialProducto on c.IdMaterialFk equals e.IdMaterial
+                                   join f in _context.ColorProducto on c.IdColorFk equals f.IdColor
+                                   join g in _context.MedidaProducto on c.IdMedidaFk equals g.IdMedida
+                                   where a.IdVenta == IdVenta
+                                   select new Articulo
+                                   {
+                                       IDDetalle = b.IdDetalle,
+                                       Tipo = d.Nombre,
+                                       Material = e.Nombre,
+                                       Color = f.Nombre,
+                                       Medida = g.CantidadCentimetros,
+                                       Cantidad = b.Cantidad,
+                                       ValorUnidad = b.ValorUnitario
+                                   }).ToList();
+
+            foreach(var item in model.listArticulos)
+            {
+                decimal valor = item.ValorUnidad ?? 0;
+                decimal valor2 = (decimal)item.Cantidad;
+                item.ValorTotal = valor * valor2;
+                model.ValorTotal += item.ValorTotal;
+            }
+
+
+            return View("Create", model);
+        }
+        public IActionResult Inicial()
+        {
+            if (HttpContext.Session.GetString("Logueo") != "Si")
+            {
+                HttpContext.Session.SetString("MensajeError", "Su sesión expiró.");
+                return RedirectToAction("Login", "Home");
+            }
+            return RedirectToAction("Inicial", "Home");
+        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Venta Venta)
+        public async Task<IActionResult> AgregarProducto(VentaModel model)
         {
-            if (ModelState.IsValid)
+            if (HttpContext.Session.GetString("Logueo") != "Si")
             {
-                _context.Add(Venta);
+                HttpContext.Session.SetString("MensajeError", "Su sesión expiró.");
+                return RedirectToAction("Login", "Home");
+            }
+            if (model.oVenta.IdVenta == 0)
+            {
+                _context.Add(model.oVenta);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
             }
-            return View(Venta);
+            return RedirectToAction(nameof(CreateArticulo), new { IdVenta = model.oVenta.IdVenta });
         }
 
-        [HttpGet]
-        // GET: Venta/Edit
-        public async Task<IActionResult> Edit(int? IdVenta)
-        {
-            if (IdVenta == null)
-            {
-                return NotFound();
-            }
 
-            Venta model = await _context.Venta.FindAsync(IdVenta);
-            if (model == null)
+        public IActionResult CreateArticulo(int IdVenta)
+        {
+            if (HttpContext.Session.GetString("Logueo") != "Si")
             {
-                return NotFound();
+                HttpContext.Session.SetString("MensajeError", "Su sesión expiró.");
+                return RedirectToAction("Login", "Home");
             }
+            ViewData["Tipo"] = new SelectList(_context.TipoProducto, "IdTipo", "Nombre");
+            ViewData["Material"] = new SelectList(_context.MaterialProducto, "IdMaterial", "Nombre");
+            ViewData["Color"] = new SelectList(_context.ColorProducto, "IdColor", "Nombre");
+            ViewData["Medida"] = new SelectList(_context.MedidaProducto, "IdMedida", "CantidadCentimetros");
+            VentaModel model = new VentaModel();
+            model.oDetalleVenta.IdVentaFk = IdVenta;
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int IdVenta, Venta Venta)
+        public async Task<IActionResult> AgregarArticulo(VentaModel model)
         {
-            if (IdVenta != Venta.IdVenta)
+            if (HttpContext.Session.GetString("Logueo") != "Si")
             {
-                return NotFound();
+                HttpContext.Session.SetString("MensajeError", "Su sesión expiró.");
+                return RedirectToAction("Login", "Home");
             }
-
-            if (ModelState.IsValid)
+            int idproducto = _context.Producto.Where(x => x.IdTipoFk == model.oProducto.IdTipoFk 
+                                                       && x.IdMaterialFk == model.oProducto.IdMaterialFk 
+                                                       && x.IdColorFk == model.oProducto.IdColorFk 
+                                                       && x.IdMedidaFk == model.oProducto.IdMedidaFk).Select(x => x.IdProducto).FirstOrDefault();
+            if (idproducto != 0)
             {
-                try
-                {
-                    _context.Update(Venta);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!VentaExists(Venta.IdVenta))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                model.oDetalleVenta.IdProductoFk = idproducto;
+                _context.Add(model.oDetalleVenta);
+                await _context.SaveChangesAsync();
+                HttpContext.Session.SetString("MensajeError", "");
             }
-            return View(Venta);
-        }
-
-        // GET: Venta/Delete/5
-        public async Task<IActionResult> Delete(int? IdVenta)
-        {
-            if (IdVenta == null)
-            {
-                return NotFound();
-            }
-
-            Venta model = await _context.Venta
-                .FirstOrDefaultAsync(m => m.IdVenta == IdVenta);
-            if (model == null)
-            {
-                return NotFound();
-            }
-
-            return View(model);
-        }
-
-        // POST: Venta/Delete
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int IdVenta)
-        {
-            Venta model = await _context.Venta.FindAsync(IdVenta);
-            _context.Venta.Remove(model);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-
-        private bool VentaExists(int IdVenta)
-        {
-            return _context.Venta.Any(c => c.IdVenta == IdVenta);
+            else
+                HttpContext.Session.SetString("MensajeError", "Producto no existente.");
+            return RedirectToAction(nameof(CreateVenta), new { IdVenta = model.oDetalleVenta.IdVentaFk });
         }
     }
 }

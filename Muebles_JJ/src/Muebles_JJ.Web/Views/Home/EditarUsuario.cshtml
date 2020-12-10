@@ -1,14 +1,18 @@
 ﻿@model Muebles_JJ.Web.Models.RegistroModel
 @{
-    ViewData["Title"] = "Registro";
+    ViewData["Title"] = "EditarUsuario";
     Layout = "~/Views/Shared/_LayoutUsuario.cshtml";
 }
 
+
 <div class="container" style="background-color:white;">
-    <h1>Registro</h1>
-    <form asp-action="Create">
+    <h1>Editar Usuario</h1>
+    <form asp-action="EditaUsuario">
         <div class="row">
-            <div class="col-2"></div>
+            <div class="col-2">
+                <input type="hidden" asp-for="oPersona.IdPersona" />
+                <input type="hidden" asp-for="oUsuario.IdUsuario" />
+            </div>
             <div class="col-4">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
@@ -100,12 +104,12 @@
             <div class="col-2"></div>
             <div class="col-4" style="display: inline-flex; justify-content: center;">
                 <div class="form-group">
-                    <a asp-action="Inicial" class="btn btn-outline-danger">Cancelar</a>
+                    <a asp-action="ConsultaUsuario" class="btn btn-outline-danger">Cancelar</a>
                 </div>
             </div>
             <div class="col-4" style="display: inline-flex; justify-content: center;">
                 <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-outline-success" />
+                    <input type="submit" value="Guardar" class="btn btn-outline-success" />
                 </div>
             </div>
             <div class="col-2"></div>
