@@ -17,7 +17,7 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="oPersona.PrimerNombre" class="control-label">Primer Nombre</label>
-                    <input asp-for="oPersona.PrimerNombre" class="form-control" />
+                    <input asp-for="oPersona.PrimerNombre" class="form-control" required autocomplete="off" />
                     <span asp-validation-for="oPersona.PrimerNombre" class="text-danger"></span>
                 </div>
             </div>
@@ -35,7 +35,7 @@
             <div class="col-4">
                 <div class="form-group">
                     <label asp-for="oPersona.PrimerApellido" class="control-label">Primer Apellido</label>
-                    <input asp-for="oPersona.PrimerApellido" class="form-control" />
+                    <input asp-for="oPersona.PrimerApellido" class="form-control" required autocomplete="off" />
                     <span asp-validation-for="oPersona.PrimerApellido" class="text-danger"></span>
                 </div>
             </div>
@@ -53,7 +53,7 @@
             <div class="col-4">
                 <div class="form-group">
                     <label asp-for="oPersona.Direccion" class="control-label">Direccion</label>
-                    <input asp-for="oPersona.Direccion" class="form-control" />
+                    <input asp-for="oPersona.Direccion" class="form-control" required autocomplete="off" />
                     <span asp-validation-for="oPersona.Direccion" class="text-danger"></span>
                 </div>
             </div>
@@ -70,7 +70,7 @@
             <div class="col-4">
                 <div class="form-group">
                     <label asp-for="oPersona.NumeroDocumento" class="control-label">Numero de Documento</label>
-                    <input asp-for="oPersona.NumeroDocumento" class="form-control" />
+                    <input asp-for="oPersona.NumeroDocumento" class="form-control" required autocomplete="off" />
                     <span asp-validation-for="oPersona.NumeroDocumento" class="text-danger"></span>
                 </div>
             </div>
@@ -87,14 +87,14 @@
             <div class="col-4">
                 <div class="form-group">
                     <label asp-for="oUsuario.NombreUsuario" class="control-label">Nombre de Usuario</label>
-                    <input asp-for="oUsuario.NombreUsuario" class="form-control" />
+                    <input asp-for="oUsuario.NombreUsuario" class="form-control" required autocomplete="off" />
                     <span asp-validation-for="oUsuario.NombreUsuario" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-4">
                 <div class="form-group">
                     <label asp-for="oUsuario.ContraseñaUsuario" class="control-label">Contraseña de Usuario</label>
-                    <input asp-for="oUsuario.ContraseñaUsuario" class="form-control" />
+                    <input type="password" asp-for="oUsuario.ContraseñaUsuario" class="form-control" required autocomplete="off" />
                     <span asp-validation-for="oUsuario.ContraseñaUsuario" class="text-danger"></span>
                 </div>
             </div>
