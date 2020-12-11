@@ -49,7 +49,7 @@ namespace Muebles_JJ.Web.Controllers
                 registroModel.oUsuario.IdPersonaFk = registroModel.oPersona.IdPersona;
                 _context.Add(registroModel.oUsuario);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(ConsultaUsuario));
             }
             return View(registroModel);
         }

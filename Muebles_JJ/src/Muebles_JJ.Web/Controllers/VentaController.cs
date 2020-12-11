@@ -81,9 +81,7 @@ namespace Muebles_JJ.Web.Controllers
                 decimal valor2 = (decimal)item.Cantidad;
                 item.ValorTotal = valor * valor2;
                 model.ValorTotal += item.ValorTotal;
-            }
-
-
+            }                       
             return View("Create", model);
         }
         public IActionResult Inicial()
