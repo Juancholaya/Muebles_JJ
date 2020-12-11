@@ -27,26 +27,51 @@
                 @foreach (var item in Model)
                 {
                     List<Muebles_JJ.Infrastructure.Documento> listDocumentos = (List<Muebles_JJ.Infrastructure.Documento>)ViewBag.Documento;
-                <tr>
-                    <td>@Html.Raw(listDocumentos.Where(x => x.IdDocumento == item.IdDocumentoFk).FirstOrDefault().Tipo)</td>
-                    <td>@Html.Raw(item.DocumentoCliente)</td>
-                    <td>@Html.Raw(item.NombreCliente)</td>
-                    <td>@Html.Raw(item.FechaVenta)</td>
-                    <td>@Html.Raw(item.FechaEntrega)</td>
-                    <td>
-                        <a asp-action="CreateVenta" class="btn btn-outline-secondary" asp-route-IdVenta="@item.IdVenta" asp-route-editVenta ="1">Editar</a>
-                    </td>
-                    <td>
-                        <a asp-action="EliminarVenta" class="btn btn-outline-danger" asp-route-IdVenta="@item.IdVenta">Eliminar</a>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>@Html.Raw(listDocumentos.Where(x => x.IdDocumento == item.IdDocumentoFk).FirstOrDefault().Tipo)</td>
+                        <td>@Html.Raw(item.DocumentoCliente)</td>
+                        <td>@Html.Raw(item.NombreCliente)</td>
+                        <td>@Html.Raw(item.FechaVenta)</td>
+                        <td>@Html.Raw(item.FechaEntrega)</td>
+                        <td>
+                            <a asp-action="CreateVenta" class="btn btn-outline-secondary" asp-route-IdVenta="@item.IdVenta" asp-route-editVenta="1">Editar</a>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#myModal" onclick="AgregarHrefModal(@item.IdVenta);">Eliminar</button>
+                            
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Eliminar Venta</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Esta seguro de eliminar la venta?</p>
+            </div>
+            <div class="modal-footer">
+                <a id="btnModalAceptar" class="btn btn-outline-success" href="#">Aceptar</a>
+            </div>
+        </div>
+
     </div>
 </div>
 <script>
     $(document).ready(function () {
         $('#tableVenta').DataTable();
     });
+    
+    function AgregarHrefModal(idVenta) {
+        $("#btnModalAceptar").attr('href', "/Venta/EliminarVenta?IdVenta=" + idVenta + "&editVenta=" + 0);
+    }
 </script>

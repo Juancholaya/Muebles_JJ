@@ -58,7 +58,7 @@
             </div>
             <div class="col-2" style="display: inline-flex; justify-content: center;">
                 <div class="form-group">
-                    <a asp-action="" class="btn btn-outline-success">Generar</a>
+                    <a class="btn btn-outline-success" onclick="GenerarFactura(@Model.oVenta.IdVenta);">Generar</a>
                 </div>
             </div>
             <div class="col-2"></div>
@@ -127,15 +127,33 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Modal Header</h4>
+                <h4 class="modal-title">Eliminar Producto</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
                 <p>Esta seguro de eliminar el producto?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cerrar</button>
                 <a id="btnModalAceptar" class="btn btn-outline-success" href="#">Aceptar</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" data-backdrop="static" id="modalGeneraFactura" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Registrar Venta</h4>
+            </div>
+            <div class="modal-body">
+                <p>La venta se generó correctamente.</p>
+            </div>
+            <div class="modal-footer">
+                <a asp-action="Index" class="btn btn-outline-success">Aceptar</a>
             </div>
         </div>
 
@@ -145,7 +163,12 @@
     $(document).ready(function () {
         $('#tableProductos').DataTable();
     });
-    function AgregarHrefModal(IDDetalle, idVenta, editVenta){
-        $("#btnModalAceptar").attr('href',"/Venta/EliminarArticulo?IdDetalleVenta=" + IDDetalle + "&idVenta=" + idVenta + "&editVenta=" + editVenta);
+    function AgregarHrefModal(IDDetalle, idVenta, editVenta) {
+        $("#btnModalAceptar").attr('href', "/Venta/EliminarArticulo?IdDetalleVenta=" + IDDetalle + "&idVenta=" + idVenta + "&editVenta=" + editVenta);
+    }
+    
+    function GenerarFactura(IdVenta) {
+        window.open("@Url.Action("Download", "Venta")" + "?IdVenta=" + IdVenta, "_blank");
+        $("#modalGeneraFactura").modal("show");
     }
 </script>

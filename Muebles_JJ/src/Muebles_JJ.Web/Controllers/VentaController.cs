@@ -190,5 +190,12 @@ namespace Muebles_JJ.Web.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
+
+        public FileContentResult Download(int IdVenta)
+        {
+            byte[] arreglo = new GenerarFactura(_context).GeneraPDF(IdVenta);
+            return File(arreglo, System.Net.Mime.MediaTypeNames.Application.Octet, "Muebles_JJ_OC_" + IdVenta + ".pdf");
+
+        }
     }
 }
