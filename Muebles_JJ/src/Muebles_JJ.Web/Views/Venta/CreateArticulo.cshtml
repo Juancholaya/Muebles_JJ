@@ -9,6 +9,7 @@
     <h1>Agregar artículo</h1>
     <form asp-action="AgregarArticulo">
         <input type="hidden" asp-for="oDetalleVenta.IdVentaFk" />
+        <input type="hidden" asp-for="editVenta" />
         <div class="row">
             <div class="col-2"></div>
             <div class="col-4">
@@ -63,7 +64,7 @@
             <div class="col-2"></div>
             <div class="col-4" style="display: inline-flex; justify-content: center;">
                 <div class="form-group">
-                    <a asp-action="CreateVenta" class="btn btn-outline-danger" asp-route-IdVenta="@Model.oDetalleVenta.IdVentaFk">Cancelar</a>
+                    <a asp-action="CreateVenta" class="btn btn-outline-danger" asp-route-IdVenta="@Model.oDetalleVenta.IdVentaFk" asp-route-editVenta="@Model.editVenta">Cancelar</a>
                 </div>
             </div>
             <div class="col-4" style="display: inline-flex; justify-content: center;">

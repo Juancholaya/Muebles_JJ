@@ -4,124 +4,148 @@
     Layout = "~/Views/Shared/_LayoutUsuario.cshtml";
 }
 
-    <div class="container" style="background-color:white;">
-        <h1>Venta</h1>
-        <form asp-action="AgregarProducto">
-            <input type="hidden" asp-for="oVenta.IdVenta" />
-            <div class="row">
-                <div class="col-2"></div>
-                <div class="col-4">
-                    <div class="form-group">
-                        <label asp-for="oVenta.IdDocumentoFk" class="control-label">Tipo de Documento</label>
-                        <select asp-for="oVenta.IdDocumentoFk" class="form-control" asp-items="ViewBag.TipoDocumento"></select>
-                    </div>
-                </div>
-                <div class="col-4">
-                    <div class="form-group">
-                        <label asp-for="oVenta.DocumentoCliente" class="control-label">Documento cliente</label>
-                        <input asp-for="oVenta.DocumentoCliente" class="form-control" />
-                        <span asp-validation-for="oVenta.DocumentoCliente" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-2"></div>
-            </div>
-            <div class="row">
-                <div class="col-2"></div>
-                <div class="col-4">
-                    <div class="form-group">
-                        <label asp-for="oVenta.NombreCliente" class="control-label">Nombre cliente</label>
-                        <input asp-for="oVenta.NombreCliente" class="form-control" />
-                        <span asp-validation-for="oVenta.NombreCliente" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-4">
-                    <div class="form-group">
-                        <label asp-for="oVenta.FechaEntrega" class="control-label">Fecha entrega</label>
-                        <input asp-for="oVenta.FechaEntrega" class="form-control" />
-                        <span asp-validation-for="oVenta.FechaEntrega" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-2"></div>
-            </div>
-            <div class="row">
-                <div class="col-2"></div>
-                <div class="col-2" style="display: inline-flex; justify-content: center;">
-                    <div class="form-group">
-                        <a asp-action="Inicial" class="btn btn-outline-danger">Cancelar</a>
-                    </div>
-                </div>
-                <div class="col-2" style="display: inline-flex; justify-content: center;">
-                    <div class="form-group">
-                        <input type="submit" value="Agregar Producto" class="btn btn-outline-info" />
-                    </div>
-                </div>
-                <div class="col-2" style="display: inline-flex; justify-content: center;">
-                    <div class="form-group">
-                        <a asp-action="" class="btn btn-outline-success">Generar</a>
-                    </div>
-                </div>
-                <div class="col-2"></div>
-            </div>
-            <div class="row">
-                <div class="col-8"></div>
-                <div class="col-2" style="display: inline-flex; justify-content: center;">
-                    <div class="form-group">
-                        <div class="form-group">
-                            <label asp-for="ValorTotal" class="control-label">Valor Total</label>
-                            <input asp-for="ValorTotal" class="form-control" />
-                        </div>
-                    </div>
-                </div>
-                <div class="col-2"></div>
-            </div>
-        </form>
-
+<div class="container" style="background-color:white;">
+    <h1>Venta</h1>
+    <form asp-action="AgregarProducto">
+        <input type="hidden" asp-for="oVenta.IdVenta" />
+        <input type="hidden" asp-for="editVenta" />
         <div class="row">
-            <div class="col-12" style="text-align:center;color:red;">
-                @ViewData["MensajeError"]
+            <div class="col-2"></div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label asp-for="oVenta.IdDocumentoFk" class="control-label">Tipo de Documento</label>
+                    <select asp-for="oVenta.IdDocumentoFk" class="form-control" asp-items="ViewBag.TipoDocumento"></select>
+                </div>
             </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label asp-for="oVenta.DocumentoCliente" class="control-label">Documento cliente</label>
+                    <input asp-for="oVenta.DocumentoCliente" class="form-control" />
+                    <span asp-validation-for="oVenta.DocumentoCliente" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-2"></div>
         </div>
         <div class="row">
             <div class="col-2"></div>
-            <div class="col-8">
-                <table id="tableProductos" class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Tipo</th>
-                            <th>Material</th>
-                            <th>Color</th>
-                            <th>Medida(cm)</th>
-                            <th>Cantidad</th>
-                            <th>Valor Unitario</th>
-                            <th>Valor Total</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.listArticulos)
-                        {
-                            <tr>
-                                <td>@Html.Raw(item.Tipo)</td>
-                                <td>@Html.Raw(item.Material)</td>
-                                <td>@Html.Raw(item.Color)</td>
-                                <td>@Html.Raw(item.Medida)</td>
-                                <td>@Html.Raw(item.Cantidad)</td>
-                                <td>@Html.Raw(item.ValorUnidad)</td>
-                                <td>@Html.Raw(item.ValorTotal)</td>
-                                <td>
-                                    <a asp-action="" class="btn btn-outline-secondary" asp-route-IdUsuario="@item.IDDetalle">Editar</a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+            <div class="col-4">
+                <div class="form-group">
+                    <label asp-for="oVenta.NombreCliente" class="control-label">Nombre cliente</label>
+                    <input asp-for="oVenta.NombreCliente" class="form-control" />
+                    <span asp-validation-for="oVenta.NombreCliente" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label asp-for="oVenta.FechaEntrega" class="control-label">Fecha entrega</label>
+                    <input asp-for="oVenta.FechaEntrega" class="form-control" />
+                    <span asp-validation-for="oVenta.FechaEntrega" class="text-danger"></span>
+                </div>
             </div>
             <div class="col-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-2" style="display: inline-flex; justify-content: center;">
+                <div class="form-group">
+                    <a asp-action="EliminarVenta" class="btn btn-outline-danger" asp-route-IdVenta="@Model.oVenta.IdVenta" asp-route-editVenta="@Model.editVenta">Cancelar</a>
+                </div>
+            </div>
+            <div class="col-2" style="display: inline-flex; justify-content: center;">
+                <div class="form-group">
+                    <input type="submit" value="Agregar Producto" class="btn btn-outline-info" />
+                </div>
+            </div>
+            <div class="col-2" style="display: inline-flex; justify-content: center;">
+                <div class="form-group">
+                    <a asp-action="" class="btn btn-outline-success">Generar</a>
+                </div>
+            </div>
+            <div class="col-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-8"></div>
+            <div class="col-2" style="display: inline-flex; justify-content: center;">
+                <div class="form-group">
+                    <div class="form-group">
+                        <label asp-for="ValorTotal" class="control-label">Valor Total</label>
+                        <input asp-for="ValorTotal" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </form>
+
+    <div class="row">
+        <div class="col-12" style="text-align:center;color:red;">
+            @ViewData["MensajeError"]
         </div>
     </div>
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <table id="tableProductos" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Material</th>
+                        <th>Color</th>
+                        <th>Medida(cm)</th>
+                        <th>Cantidad</th>
+                        <th>Valor Unitario</th>
+                        <th>Valor Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.listArticulos)
+                    {
+                        <tr>
+                            <td>@Html.Raw(item.Tipo)</td>
+                            <td>@Html.Raw(item.Material)</td>
+                            <td>@Html.Raw(item.Color)</td>
+                            <td>@Html.Raw(item.Medida)</td>
+                            <td>@Html.Raw(item.Cantidad)</td>
+                            <td>@Html.Raw(item.ValorUnidad)</td>
+                            <td>@Html.Raw(item.ValorTotal)</td>
+                            <td>
+                                <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#myModal" onclick="AgregarHrefModal(@item.IDDetalle, @Model.oVenta.IdVenta, @Model.editVenta);">Eliminar</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-2"></div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
 
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Modal Header</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Esta seguro de eliminar el producto?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cerrar</button>
+                <a id="btnModalAceptar" class="btn btn-outline-success" href="#">Aceptar</a>
+            </div>
+        </div>
+
+    </div>
+</div>
 <script>
     $(document).ready(function () {
         $('#tableProductos').DataTable();
     });
+    function AgregarHrefModal(IDDetalle, idVenta, editVenta){
+        $("#btnModalAceptar").attr('href',"/Venta/EliminarArticulo?IdDetalleVenta=" + IDDetalle + "&idVenta=" + idVenta + "&editVenta=" + editVenta);
+    }
 </script>

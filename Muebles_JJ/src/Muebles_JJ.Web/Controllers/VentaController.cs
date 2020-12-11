@@ -29,6 +29,7 @@ namespace Muebles_JJ.Web.Controllers
                 HttpContext.Session.SetString("MensajeError", "Su sesión expiró.");
                 return RedirectToAction("Login", "Home");
             }
+            ViewData["Documento"] = await _context.Documento.ToListAsync();
             var listado = await _context.Venta.ToListAsync();
             return View(listado);
         }
@@ -42,10 +43,11 @@ namespace Muebles_JJ.Web.Controllers
             }
             ViewData["TipoDocumento"] = new SelectList(_context.Documento, "IdDocumento", "Tipo");
             VentaModel model = new VentaModel();
+            model.editVenta = 0;
             return View(model);
         }
 
-        public IActionResult CreateVenta(int IdVenta)
+        public IActionResult CreateVenta(int IdVenta, int editVenta)
         {
             if (HttpContext.Session.GetString("Logueo") != "Si")
             {
@@ -53,8 +55,9 @@ namespace Muebles_JJ.Web.Controllers
                 return RedirectToAction("Login", "Home");
             }
             ViewData["MensajeError"] = HttpContext.Session.GetString("MensajeError");
-            ViewData["TipoDocumento"] = new SelectList(_context.Documento, "IdDocumento", "Tipo");             
+            ViewData["TipoDocumento"] = new SelectList(_context.Documento, "IdDocumento", "Tipo");
             VentaModel model = new VentaModel();
+            model.editVenta = editVenta;
             model.oVenta = _context.Venta.Find(IdVenta);
             model.listArticulos = (from a in _context.Venta
                                    join b in _context.DetalleVenta on a.IdVenta equals b.IdVentaFk
@@ -75,13 +78,13 @@ namespace Muebles_JJ.Web.Controllers
                                        ValorUnidad = b.ValorUnitario
                                    }).ToList();
 
-            foreach(var item in model.listArticulos)
+            foreach (var item in model.listArticulos)
             {
                 decimal valor = item.ValorUnidad ?? 0;
                 decimal valor2 = (decimal)item.Cantidad;
                 item.ValorTotal = valor * valor2;
                 model.ValorTotal += item.ValorTotal;
-            }                       
+            }
             return View("Create", model);
         }
         public IActionResult Inicial()
@@ -106,14 +109,15 @@ namespace Muebles_JJ.Web.Controllers
             }
             if (model.oVenta.IdVenta == 0)
             {
+                model.oVenta.FechaVenta = DateTime.Now;
                 _context.Add(model.oVenta);
                 await _context.SaveChangesAsync();
             }
-            return RedirectToAction(nameof(CreateArticulo), new { IdVenta = model.oVenta.IdVenta });
+            return RedirectToAction(nameof(CreateArticulo), new { IdVenta = model.oVenta.IdVenta, editVenta = model.editVenta });
         }
 
 
-        public IActionResult CreateArticulo(int IdVenta)
+        public IActionResult CreateArticulo(int IdVenta, int editVenta)
         {
             if (HttpContext.Session.GetString("Logueo") != "Si")
             {
@@ -125,6 +129,7 @@ namespace Muebles_JJ.Web.Controllers
             ViewData["Color"] = new SelectList(_context.ColorProducto, "IdColor", "Nombre");
             ViewData["Medida"] = new SelectList(_context.MedidaProducto, "IdMedida", "CantidadCentimetros");
             VentaModel model = new VentaModel();
+            model.editVenta = editVenta;
             model.oDetalleVenta.IdVentaFk = IdVenta;
             return View(model);
         }
@@ -138,9 +143,9 @@ namespace Muebles_JJ.Web.Controllers
                 HttpContext.Session.SetString("MensajeError", "Su sesión expiró.");
                 return RedirectToAction("Login", "Home");
             }
-            int idproducto = _context.Producto.Where(x => x.IdTipoFk == model.oProducto.IdTipoFk 
-                                                       && x.IdMaterialFk == model.oProducto.IdMaterialFk 
-                                                       && x.IdColorFk == model.oProducto.IdColorFk 
+            int idproducto = _context.Producto.Where(x => x.IdTipoFk == model.oProducto.IdTipoFk
+                                                       && x.IdMaterialFk == model.oProducto.IdMaterialFk
+                                                       && x.IdColorFk == model.oProducto.IdColorFk
                                                        && x.IdMedidaFk == model.oProducto.IdMedidaFk).Select(x => x.IdProducto).FirstOrDefault();
             if (idproducto != 0)
             {
@@ -151,7 +156,39 @@ namespace Muebles_JJ.Web.Controllers
             }
             else
                 HttpContext.Session.SetString("MensajeError", "Producto no existente.");
-            return RedirectToAction(nameof(CreateVenta), new { IdVenta = model.oDetalleVenta.IdVentaFk });
+            return RedirectToAction(nameof(CreateVenta), new { IdVenta = model.oDetalleVenta.IdVentaFk, editVenta = model.editVenta });
+        }
+        public async Task<IActionResult> EliminarArticulo(int IdDetalleVenta, int idVenta, int editVenta)
+        {
+            if (HttpContext.Session.GetString("Logueo") != "Si")
+            {
+                HttpContext.Session.SetString("MensajeError", "Su sesión expiró.");
+                return RedirectToAction("Login", "Home");
+            }
+            DetalleVenta model = await _context.DetalleVenta.FindAsync(IdDetalleVenta);
+            _context.DetalleVenta.Remove(model);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(CreateVenta), new { IdVenta = idVenta, editVenta = editVenta });
+        }
+        public async Task<IActionResult> EliminarVenta(int IdVenta, int editVenta)
+        {
+            if (HttpContext.Session.GetString("Logueo") != "Si")
+            {
+                HttpContext.Session.SetString("MensajeError", "Su sesión expiró.");
+                return RedirectToAction("Login", "Home");
+            }
+            if (editVenta == 0 && IdVenta != 0)
+            {
+                List<DetalleVenta> listDetalleVenta = _context.DetalleVenta.Where(x => x.IdVentaFk == IdVenta).ToList();
+                foreach (var item in listDetalleVenta)
+                {
+                    _context.DetalleVenta.Remove(item);
+                }
+                Venta venta = await _context.Venta.FindAsync(IdVenta);
+                _context.Venta.Remove(venta);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index));
         }
     }
 }

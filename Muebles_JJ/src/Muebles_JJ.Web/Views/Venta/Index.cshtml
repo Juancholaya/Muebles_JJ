@@ -1,0 +1,52 @@
+﻿@model List<Muebles_JJ.Infrastructure.Venta>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutUsuario.cshtml";
+}
+
+<div class="row" style="background-color:white;">
+    <div class="col-12">
+        <h1>Consulta Venta</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12" style="background-color:white;display: inline-flex;justify-content: center;">
+        <table id="tableVenta" class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Tipo Documento</th>
+                    <th>Documento</th>
+                    <th>Nombre</th>
+                    <th>Fecha Venta</th>
+                    <th>Fecha Entrega</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    List<Muebles_JJ.Infrastructure.Documento> listDocumentos = (List<Muebles_JJ.Infrastructure.Documento>)ViewBag.Documento;
+                <tr>
+                    <td>@Html.Raw(listDocumentos.Where(x => x.IdDocumento == item.IdDocumentoFk).FirstOrDefault().Tipo)</td>
+                    <td>@Html.Raw(item.DocumentoCliente)</td>
+                    <td>@Html.Raw(item.NombreCliente)</td>
+                    <td>@Html.Raw(item.FechaVenta)</td>
+                    <td>@Html.Raw(item.FechaEntrega)</td>
+                    <td>
+                        <a asp-action="CreateVenta" class="btn btn-outline-secondary" asp-route-IdVenta="@item.IdVenta" asp-route-editVenta ="1">Editar</a>
+                    </td>
+                    <td>
+                        <a asp-action="EliminarVenta" class="btn btn-outline-danger" asp-route-IdVenta="@item.IdVenta">Eliminar</a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#tableVenta').DataTable();
+    });
+</script>
