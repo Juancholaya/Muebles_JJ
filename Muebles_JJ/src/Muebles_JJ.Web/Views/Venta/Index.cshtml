@@ -38,7 +38,6 @@
                         </td>
                         <td>
                             <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#myModal" onclick="AgregarHrefModal(@item.IdVenta);">Eliminar</button>
-                            
                         </td>
                     </tr>
                 }
@@ -70,7 +69,7 @@
     $(document).ready(function () {
         $('#tableVenta').DataTable();
     });
-    
+
     function AgregarHrefModal(idVenta) {
         $("#btnModalAceptar").attr('href', "/Venta/EliminarVenta?IdVenta=" + idVenta + "&editVenta=" + 0);
     }
