@@ -1,15 +1,15 @@
 CREATE DATABASE  IF NOT EXISTS `muebles_jj` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
 USE `muebles_jj`;
--- MariaDB dump 10.17  Distrib 10.4.14-MariaDB, for Win64 (AMD64)
+-- MySQL dump 10.13  Distrib 8.0.13, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: muebles_jj
 -- ------------------------------------------------------
--- Server version	10.4.14-MariaDB
+-- Server version	5.5.5-10.1.37-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+ SET NAMES utf8 ;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -23,7 +23,7 @@ USE `muebles_jj`;
 
 DROP TABLE IF EXISTS `color_producto`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `color_producto` (
   `ID_Color` int(2) NOT NULL AUTO_INCREMENT,
   `Nombre` varchar(30) DEFAULT NULL,
@@ -47,7 +47,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `comprobante_pago`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `comprobante_pago` (
   `ID_Comprobante` int(2) NOT NULL AUTO_INCREMENT,
   `Fecha` datetime DEFAULT NULL,
@@ -73,7 +73,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `detalle_venta`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `detalle_venta` (
   `ID_Detalle` int(2) NOT NULL AUTO_INCREMENT,
   `ID_Venta_Fk` int(11) DEFAULT NULL,
@@ -103,7 +103,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `documento`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `documento` (
   `ID_Documento` int(1) NOT NULL AUTO_INCREMENT,
   `Tipo` varchar(30) DEFAULT NULL,
@@ -127,7 +127,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `insumo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `insumo` (
   `ID_Insumo` int(2) NOT NULL AUTO_INCREMENT,
   `Nombre` varchar(20) DEFAULT NULL,
@@ -149,12 +149,42 @@ LOCK TABLES `insumo` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `inventario`
+--
+
+DROP TABLE IF EXISTS `inventario`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `inventario` (
+  `ID_Inventario` int(2) NOT NULL AUTO_INCREMENT,
+  `Fecha_Entrada` datetime DEFAULT NULL,
+  `Fecha_Salida` datetime DEFAULT NULL,
+  `ID_Insumo_FK` int(2) DEFAULT NULL,
+  `ID_Producto_FK` int(2) DEFAULT NULL,
+  PRIMARY KEY (`ID_Inventario`),
+  KEY `ID_Insumo_FK` (`ID_Insumo_FK`),
+  KEY `ID_Producto_FK` (`ID_Producto_FK`),
+  CONSTRAINT `inventario_ibfk_1` FOREIGN KEY (`ID_Insumo_FK`) REFERENCES `insumo` (`ID_Insumo`),
+  CONSTRAINT `inventario_ibfk_2` FOREIGN KEY (`ID_Producto_FK`) REFERENCES `producto` (`ID_Producto`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `inventario`
+--
+
+LOCK TABLES `inventario` WRITE;
+/*!40000 ALTER TABLE `inventario` DISABLE KEYS */;
+/*!40000 ALTER TABLE `inventario` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `material_producto`
 --
 
 DROP TABLE IF EXISTS `material_producto`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `material_producto` (
   `ID_Material` int(2) NOT NULL AUTO_INCREMENT,
   `Nombre` varchar(30) DEFAULT NULL,
@@ -178,7 +208,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `medida_producto`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `medida_producto` (
   `ID_Medida` int(2) NOT NULL AUTO_INCREMENT,
   `Cantidad_Centimetros` int(10) DEFAULT NULL,
@@ -202,7 +232,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `pedido`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `pedido` (
   `ID_Pedido` int(2) NOT NULL AUTO_INCREMENT,
   `Fecha_Entrega` datetime DEFAULT NULL,
@@ -229,7 +259,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `persona`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `persona` (
   `ID_Persona` int(10) NOT NULL AUTO_INCREMENT,
   `Primer_Nombre` varchar(20) DEFAULT NULL,
@@ -261,7 +291,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `producto`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `producto` (
   `ID_Producto` int(2) NOT NULL AUTO_INCREMENT,
   `ID_Tipo_FK` int(2) DEFAULT NULL,
@@ -296,7 +326,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `rol`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `rol` (
   `ID_Rol` int(2) NOT NULL AUTO_INCREMENT,
   `Nombre` varchar(30) DEFAULT NULL,
@@ -320,7 +350,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `telefono`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `telefono` (
   `ID_Telefono` int(1) NOT NULL AUTO_INCREMENT,
   `Tipo` varchar(30) DEFAULT NULL,
@@ -349,7 +379,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tipo_producto`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tipo_producto` (
   `ID_Tipo` int(2) NOT NULL AUTO_INCREMENT,
   `Nombre` varchar(30) DEFAULT NULL,
@@ -373,7 +403,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `unidadmedida`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `unidadmedida` (
   `Id_Medida` int(2) NOT NULL AUTO_INCREMENT,
   `NombreLargo` varchar(20) DEFAULT NULL,
@@ -397,7 +427,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `usuario`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `usuario` (
   `ID_Usuario` int(2) NOT NULL AUTO_INCREMENT,
   `Nombre_Usuario` varchar(30) DEFAULT NULL,
@@ -428,7 +458,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `venta`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `venta` (
   `ID_Venta` int(2) NOT NULL AUTO_INCREMENT,
   `Documento_Cliente` varchar(20) DEFAULT NULL,
@@ -453,12 +483,60 @@ LOCK TABLES `venta` WRITE;
 UNLOCK TABLES;
 
 --
--- Dumping events for database 'muebles_jj'
---
-
---
 -- Dumping routines for database 'muebles_jj'
 --
+/*!50003 DROP PROCEDURE IF EXISTS `SP_ConsultarRolUsuarrio` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ConsultarRolUsuarrio`(IN Nombre_Usuario varchar(20))
+BEGIN
+	select Nombre_Usuario,
+			rol.Nombre 'Rol'
+			from muebles_jj.usuario
+			inner join muebles_jj.rol
+			on rol.ID_Rol = usuario.ID_Rol_FK
+            where Nombre_Usuario like CONCAT('%', Nombre_Usuario ,'%');
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `SP_ValidarStock` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ValidarStock`(IN insumo varchar(20), IN cantidad INT)
+BEGIN
+
+	select insumo.ID_Insumo,
+			insumo.Nombre, 
+            unidadmedida.NombreLargo 'UnidadMedida',
+            insumo.Cantidad Stock, cantidad 'ValorIngresado', 
+            insumo.Cantidad - cantidad 'total'
+	from muebles_jj.insumo insumo
+	inner join muebles_jj.unidadmedida unidadmedida 
+		on unidadmedida.Id_Medida = insumo.Id_Medida_FK
+	where insumo.Nombre like CONCAT('%', insumo ,'%');
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -469,4 +547,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-11  1:48:39
+-- Dump completed on 2020-12-14 15:44:09
