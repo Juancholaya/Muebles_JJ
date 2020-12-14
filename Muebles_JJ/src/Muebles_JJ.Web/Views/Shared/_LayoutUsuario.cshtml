@@ -16,7 +16,9 @@
 <body>
     <!--Menu inicio-->
     <nav id="menu" class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
-        <img src="~/Imagenes/logo.jpeg" width="3%" height="3%" />
+        <a href="/Home/Inicial" style="width:50px">
+            <img src="~/Imagenes/logo.jpeg" width="80%" height="80%" />
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -39,8 +41,8 @@
                         Inventario
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Crear Insumo</a>
-                        <a class="dropdown-item" href="#">Consultar, Editar y Eliminar Insumos</a>
+                        <a class="dropdown-item" href="/Insumo/Create">Crear Insumo</a>
+                        <a class="dropdown-item" href="/Insumo/Index">Consultar, Editar y Eliminar Insumos</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">

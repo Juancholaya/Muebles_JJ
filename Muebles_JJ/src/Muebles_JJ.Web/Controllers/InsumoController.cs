@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Muebles_JJ.Infrastructure.Data;
 using Muebles_JJ.Infrastructure;
+using Microsoft.AspNetCore.Http;
+using Muebles_JJ.Web.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Muebles_JJ.Web.Controllers
 {
@@ -21,130 +24,83 @@ namespace Muebles_JJ.Web.Controllers
         //GET: Insumo
         public async Task<IActionResult> Index()
         {
-            var listado = await _context.Insumo.ToListAsync();
-            return View(listado);
-        }
-
-        // GET: Insumo/Details/
-        public async Task<IActionResult> Details(int? IdInsumo)
-        {
-            if (IdInsumo == null)
+            if (HttpContext.Session.GetString("Logueo") != "Si")
             {
-                return NotFound();
+                HttpContext.Session.SetString("MensajeError", "Su sesión expiró.");
+                return RedirectToAction("Login", "Home");
             }
-
-            Insumo model = await _context.Insumo
-                .FirstOrDefaultAsync(m => m.IdInsumo == IdInsumo);
-            if (model == null)
-            {
-                return NotFound();
-            }
-
+            InsumoModel model = new InsumoModel();
+            model.listInsumo = await _context.Insumo.ToListAsync();
+            model.listUnidadmedida = await _context.Unidadmedida.ToListAsync();
             return View(model);
         }
 
-
         //GET: Insumo/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            if (HttpContext.Session.GetString("Logueo") != "Si")
+            {
+                HttpContext.Session.SetString("MensajeError", "Su sesión expiró.");
+                return RedirectToAction("Login", "Home");
+            }
+            ViewData["UnidadMedida"] = new SelectList(_context.Unidadmedida, "IdMedida", "NombreLargo");
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Insumo Insumo)
+        public async Task<IActionResult> AgregarInsumo(InsumoModel model)
         {
-            if (ModelState.IsValid)
+            if (HttpContext.Session.GetString("Logueo") != "Si")
             {
-                _context.Add(Insumo);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                HttpContext.Session.SetString("MensajeError", "Su sesión expiró.");
+                return RedirectToAction("Login", "Home");
             }
-            return View(Insumo);
+            _context.Add(model.oInsumo);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
-        [HttpGet]
-        // GET: Insumo/Edit
-        public async Task<IActionResult> Edit(int? IdInsumo)
+        //GET: Insumo/Edit
+        public async Task<IActionResult> Edit(int IdInsumo)
         {
-            if (IdInsumo == null)
+            if (HttpContext.Session.GetString("Logueo") != "Si")
             {
-                return NotFound();
+                HttpContext.Session.SetString("MensajeError", "Su sesión expiró.");
+                return RedirectToAction("Login", "Home");
             }
-
-            Insumo model = await _context.Insumo.FindAsync(IdInsumo);
-            if (model == null)
-            {
-                return NotFound();
-            }
+            InsumoModel model = new InsumoModel();
+            model.oInsumo = await _context.Insumo.FindAsync(IdInsumo);
+            ViewData["UnidadMedida"] = new SelectList(_context.Unidadmedida, "IdMedida", "NombreLargo");
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int IdInsumo, Insumo Insumo)
+        public async Task<IActionResult> EditarInsumo(InsumoModel model)
         {
-            if (IdInsumo != Insumo.IdInsumo)
+            if (HttpContext.Session.GetString("Logueo") != "Si")
             {
-                return NotFound();
+                HttpContext.Session.SetString("MensajeError", "Su sesión expiró.");
+                return RedirectToAction("Login", "Home");
             }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(Insumo);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!InsumoExists(Insumo.IdInsumo))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(Insumo);
-        }
-
-        // GET: Insumo/Delete/5
-        public async Task<IActionResult> Delete(int? IdInsumo)
-        {
-            if (IdInsumo == null)
-            {
-                return NotFound();
-            }
-
-            Insumo model = await _context.Insumo
-                .FirstOrDefaultAsync(m => m.IdInsumo == IdInsumo);
-            if (model == null)
-            {
-                return NotFound();
-            }
-
-            return View(model);
-        }
-
-        // POST: Insumo/Delete
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int IdInsumo)
-        {
-            Insumo model = await _context.Insumo.FindAsync(IdInsumo);
-            _context.Insumo.Remove(model);
+            _context.Update(model.oInsumo);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-
-        private bool InsumoExists(int IdInsumo)
+        //GET: Insumo/EliminarInsumo
+        public async Task<IActionResult> EliminarInsumo(int IdInsumo)
         {
-            return _context.Insumo.Any(c => c.IdInsumo == IdInsumo);
+            if (HttpContext.Session.GetString("Logueo") != "Si")
+            {
+                HttpContext.Session.SetString("MensajeError", "Su sesión expiró.");
+                return RedirectToAction("Login", "Home");
+            }
+            Insumo model = await _context.Insumo.FindAsync(IdInsumo);
+            _context.Insumo.Remove(model);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
     }
 }

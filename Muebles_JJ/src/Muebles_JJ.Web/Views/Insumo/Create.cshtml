@@ -1,0 +1,55 @@
+﻿@model Muebles_JJ.Web.Models.InsumoModel
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_LayoutUsuario.cshtml";
+}
+
+<div class="container" style="background-color:white;">
+    <h1>Crear Insumo</h1>
+    <form asp-action="AgregarInsumo">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label asp-for="oInsumo.Nombre" class="control-label">Insumo</label>
+                    <input asp-for="oInsumo.Nombre" class="form-control" />
+                    <span asp-validation-for="oInsumo.Nombre" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label asp-for="oInsumo.IdMedidaFk" class="control-label">Unidad de Medida</label>
+                    <select asp-for="oInsumo.IdMedidaFk" class="form-control" asp-items="ViewBag.UnidadMedida"></select>
+                </div>
+            </div>
+            <div class="col-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label asp-for="oInsumo.Cantidad" class="control-label">Cantidad</label>
+                    <input asp-for="oInsumo.Cantidad" class="form-control" />
+                    <span asp-validation-for="oInsumo.Cantidad" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-4"></div>
+            <div class="col-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-4" style="display: inline-flex; justify-content: center;">
+                <div class="form-group">
+                    <a asp-action="Index" class="btn btn-outline-danger">Cancelar</a>
+                </div>
+            </div>
+            <div class="col-4" style="display: inline-flex; justify-content: center;">
+                <div class="form-group">
+                    <input type="submit" value="Agregar Insumo" class="btn btn-outline-success" />
+                </div>
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </form>
+</div>
+

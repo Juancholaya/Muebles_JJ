@@ -11,10 +11,11 @@ namespace Muebles_JJ.Web.Models
         public InsumoModel()
         {
             oInsumo = new Insumo();
-            oUnidadMedida = new Unidadmedida();
+            listUnidadmedida = new List<Unidadmedida>();
+            listInsumo = new List<Insumo>();
         }
         public Insumo oInsumo { get; set; }
-
-        public Unidadmedida oUnidadMedida { get; set; }
+        public List<Unidadmedida> listUnidadmedida { get; set; }
+        public List<Insumo> listInsumo { get; set; }
     }
 }
